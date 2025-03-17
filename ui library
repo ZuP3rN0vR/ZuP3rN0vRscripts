@@ -1,0 +1,77 @@
+-- Custom UI Library
+local CustomUILibrary = {}
+
+-- Create a new window
+function CustomUILibrary:CreateWindow(title)
+    local window = {}
+
+    -- Create the main frame
+    window.frame = Instance.new("Frame")
+    window.frame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
+    window.frame.BorderSizePixel = 0
+    window.frame.Size = UDim2.new(0, 300, 0, 200)
+    window.frame.Position = UDim2.new(0.5, -150, 0.5, -100)
+    window.frame.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+    -- Add a title label
+    window.title = Instance.new("TextLabel")
+    window.title.Text = title
+    window.title.TextColor3 = Color3.new(1, 1, 1)
+    window.title.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
+    window.title.Size = UDim2.new(1, 0, 0, 30)
+    window.title.Parent = window.frame
+
+    -- Add a close button
+    window.closeButton = Instance.new("TextButton")
+    window.closeButton.Text = "X"
+    window.closeButton.TextColor3 = Color3.new(1, 1, 1)
+    window.closeButton.BackgroundColor3 = Color3.new(0.8, 0.2, 0.2)
+    window.closeButton.Size = UDim2.new(0, 30, 0, 30)
+    window.closeButton.Position = UDim2.new(1, -30, 0, 0)
+    window.closeButton.Parent = window.frame
+
+    -- Close button functionality
+    window.closeButton.MouseButton1Click:Connect(function()
+        window.frame:Destroy()
+    end)
+
+    -- Add a container for UI elements
+    window.container = Instance.new("Frame")
+    window.container.BackgroundColor3 = Color3.new(0.15, 0.15, 0.15)
+    window.container.Size = UDim2.new(1, -20, 1, -50)
+    window.container.Position = UDim2.new(0, 10, 0, 40)
+    window.container.Parent = window.frame
+
+    -- Add a function to create a button
+    function window:CreateButton(text, callback)
+        local button = Instance.new("TextButton")
+        button.Text = text
+        button.TextColor3 = Color3.new(1, 1, 1)
+        button.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
+        button.Size = UDim2.new(1, -20, 0, 30)
+        button.Position = UDim2.new(0, 10, 0, #window.container:GetChildren() * 40)
+        button.Parent = window.container
+
+        -- Connect the callback to the button
+        button.MouseButton1Click:Connect(callback)
+
+        return button
+    end
+
+    -- Add a function to create a label
+    function window:CreateLabel(text)
+        local label = Instance.new("TextLabel")
+        label.Text = text
+        label.TextColor3 = Color3.new(1, 1, 1)
+        label.BackgroundTransparency = 1
+        label.Size = UDim2.new(1, -20, 0, 20)
+        label.Position = UDim2.new(0, 10, 0, #window.container:GetChildren() * 30)
+        label.Parent = window.container
+
+        return label
+    end
+
+    return window
+end
+
+return CustomUILibrary
